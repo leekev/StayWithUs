@@ -5,7 +5,7 @@ import javax.tools.JavaCompiler;
 import javax.tools.JavaCompiler.CompilationTask;
 import javax.tools.JavaFileObject;
 import javax.tools.ToolProvider;
-import javax.tools.JavaFileObject.Kind;
+
 import javax.tools.SimpleJavaFileObject;
 
 public class CodeRunner {
@@ -21,10 +21,10 @@ public class CodeRunner {
     }
     
     public boolean runCode(String code) {
-        JavaFileObject playerCode = new JavaSourceFromString(DIR + "PlayerCode", code);
+        JavaFileObject playerCode = new JavaSourceFromString("StayWithUs", code);
         Iterable<? extends JavaFileObject> compilationUnits = Arrays.asList(playerCode);
         
-        CompilationTask task = compiler.getTask(null, null, null, null, null, compilationUnits);
+        CompilationTask task = compiler.getTask(null, null, null, Arrays.asList(new String[] { "-d", DIR}), null, compilationUnits);
         
         boolean compilationSuccess = task.call();
         
