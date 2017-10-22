@@ -1,5 +1,5 @@
 
-public class Pair<T1, T2> {
+public class Pair<T1 extends Comparable<T1>, T2> implements Comparable<Pair<T1, T2>>{
 
     public final T1 key;
     public final T2 value;
@@ -26,5 +26,10 @@ public class Pair<T1, T2> {
     @Override
     public int hashCode() {
         return key.hashCode();
+    }
+    
+    @Override
+    public int compareTo(Pair<T1, T2> other) {
+        return key.compareTo(other.key);
     }
 }

@@ -4,6 +4,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -12,11 +13,11 @@ import java.util.TreeSet;
 
 public class GameMain {
     
-    static String s = "public class StayWithUs { \n\n\tstatic Player p; \n\n\t static WinCondition win; \n\n\tpublic static void run(String useless) { \n\t\tsetup();\n\t\taction(p);\n\t\t checkWin(); \n\t}\n\n\t"
+    static String s = "import java.io.BufferedWriter; \n import java.io.File; \n import java.io.FileWriter; \n import java.io.IOException; \n public class StayWithUs { \n\n\tstatic Player p; \n\n\t static WinCondition gabba; \n\n\tpublic static void run(String useless) { \n\t\tsetup();\n\t\taction(p);\n\t\t checkWin(); \n\t}\n\n\t"
             + "public static void setup() {\n\t\t";
     static String middle = "\n\t}\n\n\tpublic static void action(Player p) {\n";
     
-    static String end = "\t\n}\n\t public static void checkWin() {\n\t\t System.out.println(win.result());\n\t }\n}";
+    static String end = "\t\n}\n\t public static void checkWin() {\n\t\t BufferedWriter writer; try { writer = new BufferedWriter(new FileWriter(new File(\"result.txt\"))); writer.write(\"\" + gabba.result()); writer.close(); } catch (IOException e) { return; }\n\t }\n}";
     
     static CodeRunner runner;
     static Map<String, String> setupCommands;
@@ -25,10 +26,12 @@ public class GameMain {
     
     public static void main(String[] args) {
         runner = new CodeRunner();
-        setupCommands = new HashMap<String, String>();
+        setupSelections();
         Scanner input = new Scanner(System.in);
-        initialPreparation("player1", input);
-        // initialPreparation("player2", input);
+        initialPreparation("player1", input, 10);
+        initialPreparation("player2", input, 12);
+        
+        
         
         String playerCode = s + readPlayerInputText("player1");
         
@@ -38,6 +41,12 @@ public class GameMain {
         playerCode += writeLines(5);
         playerCode += end;
         runner.runCode(playerCode);
+    }
+    
+    public static void setupSelections() {
+        MEDIEVAL = new HashSet<Pair<String, Integer>>();
+        MEDIEVAL.add(new Pair<String, Integer>("Moat", 3));
+        MEDIEVAL.add(new Pair<String, Integer>("WoodenDoor", 5));
     }
     
     public static void writeToFile(BufferedWriter writer, String line) {
@@ -91,14 +100,14 @@ public class GameMain {
         return result;
     }
     
-    public static boolean initialPreparation(String player, Scanner input) {
+    public static boolean initialPreparation(String player, Scanner input, int initialCost) {
         
         String playerClass = classSelection(input);
         
         List<String> selecterinos;
         
-        if (playerClass.equals("MEDIEVAL")) {
-            selecterinos = selections(input, MEDIEVAL);
+        if (playerClass.equals("Medieval")) {
+            selecterinos = selections(input, MEDIEVAL, initialCost);
             
         } else if (playerClass.equals("Debug")) {
             selecterinos = new ArrayList<String>();
@@ -125,7 +134,7 @@ public class GameMain {
         }
         
         writeToFile(writer, "WinCondition winner = new WinCondition();");
-        writeToFile(writer, "win = winner;");
+        writeToFile(writer, "gabba = winner;");
         writeToFile(writer, "Encryption var0 = winner;");
         
         int i = 1;
@@ -183,21 +192,21 @@ public class GameMain {
         
         String choice = "";
         
-        while (!validEncryptions.contains(choice)) {
+        while (!validEncryptions.contains(new Pair<String, Integer>(choice, 0))) {
             System.out.println("Select Encryption: ");
             
             for (Pair<String, Integer> encryption : validEncryptions) {
                 System.out.println(encryption.key);
             }
             
-            // choice = input.nextLine().toUpperCase(); 
+            choice = input.nextLine();
         }
         
         return choice;
     }
     
-    public static List<String> selections(Scanner input, Set<Pair<String, Integer>> encryptions) {
-        int encryptionCost = 30;
+    public static List<String> selections(Scanner input, Set<Pair<String, Integer>> encryptions, int initialCost) {
+        int encryptionCost = initialCost;
         List<String> selectedEncryptions = new ArrayList<String>();
         
         while (encryptionChoosable(encryptions, encryptionCost)) {
@@ -221,7 +230,7 @@ public class GameMain {
     
     public static int updateEncryption(Set<Pair<String, Integer>> encryptions, String encryptionInput, int costRemaining) {
         for (Pair<String, Integer> encryption : encryptions) {
-            if (encryption.equals(encryptionInput)) {
+            if (encryption.key.equals(encryptionInput)) {
                 return costRemaining - encryption.value;
             }
         }
