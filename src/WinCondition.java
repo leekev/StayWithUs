@@ -18,4 +18,9 @@ public class WinCondition extends Encryption{
 		if (key == guess)
 			winner = true;
 	}
+	
+	public boolean result()
+	{
+		return winner;
+	}
 }
