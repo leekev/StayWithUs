@@ -1,4 +1,4 @@
 
-public interface Encryption {
+public class Encryption extends Inspectable{
 
 }
