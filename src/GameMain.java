@@ -12,11 +12,11 @@ import java.util.TreeSet;
 
 public class GameMain {
     
-    static String s = "public class StayWithUs { \n\n\tstatic Player p; \n\n\tpublic static void run(String useless) { \n\t\tsetup();\n\t\taction(p);\n\t}\n\n\t"
+    static String s = "public class StayWithUs { \n\n\tstatic Player p; \n\n\t static WinCondition win; \n\n\tpublic static void run(String useless) { \n\t\tsetup();\n\t\taction(p);\n\t\t checkWin(); \n\t}\n\n\t"
             + "public static void setup() {\n\t\t";
     static String middle = "\n\t}\n\n\tpublic static void action(Player p) {\n";
     
-    static String end = "\t}\n}";
+    static String end = "\t\n}\n\t public static void checkWin() {\n\t\t System.out.println(win.result());\n\t }\n}";
     
     static CodeRunner runner;
     static Map<String, String> setupCommands;
@@ -40,17 +40,14 @@ public class GameMain {
         runner.runCode(playerCode);
     }
     
-    public static boolean writeToFile(String player, String line) {
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(new File(player + ".txt")));
-            writer.append(line);
-            writer.newLine();
-            writer.close();
-            return true;
-        } catch (IOException e) {
-            System.err.println("Game files incomplete");
-            return false;
-        }
+    public static void writeToFile(BufferedWriter writer, String line) {
+            try {
+                writer.write(line);
+                writer.newLine();
+            } catch (IOException e) {
+                System.err.println("Error writing to file");
+                System.exit(1);
+            }
     }
     
     public static String writeLines(int maxLines) {
@@ -103,10 +100,10 @@ public class GameMain {
         if (playerClass.equals("MEDIEVAL")) {
             selecterinos = selections(input, MEDIEVAL);
             
-        } else if (playerClass.equals("DEBUG")) {
+        } else if (playerClass.equals("Debug")) {
             selecterinos = new ArrayList<String>();
-            for (int i = 0; i < 5; i++) {
-                selecterinos.add("DEBUG");
+            for (int i = 0; i < 0; i++) {
+                selecterinos.add("Debug");
             }
         } else {
             selecterinos = new ArrayList<String>();
@@ -118,7 +115,18 @@ public class GameMain {
     }
     
     public static void updatePlayerTextFile(String player, List<String> selections) {
-        writeToFile(player, "Encryption var0 = new WinCondition();");
+        BufferedWriter writer;
+        try {
+            writer = new BufferedWriter(new FileWriter(new File(player + ".txt")));
+        } catch (IOException e) {
+            System.err.println("Unable to create player text file");
+            System.exit(1);
+            return;
+        }
+        
+        writeToFile(writer, "WinCondition winner = new WinCondition();");
+        writeToFile(writer, "win = winner;");
+        writeToFile(writer, "Encryption var0 = winner;");
         
         int i = 1;
         while (i <= selections.size()) {
@@ -132,11 +140,19 @@ public class GameMain {
             build.append(i - 1);
             build.append(");");
             
-            writeToFile(player, build.toString());
+            writeToFile(writer, build.toString());
             i++;
         }
         
-        writeToFile(player, "p = new Player(var" + (i - 1) + ");");
+        writeToFile(writer, "p = new Player(var" + (i - 1) + ");");
+        
+        try {
+            writer.close();
+        } catch (IOException e) {
+            System.err.println("Writer unable to close");
+            System.exit(1);
+            return;
+        }
     }
     
     public static String classSelection(Scanner input) {
@@ -174,7 +190,7 @@ public class GameMain {
                 System.out.println(encryption.key);
             }
             
-            choice = input.nextLine().toUpperCase(); 
+            // choice = input.nextLine().toUpperCase(); 
         }
         
         return choice;
