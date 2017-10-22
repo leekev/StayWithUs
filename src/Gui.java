@@ -6,26 +6,27 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 
-public class Gui {
+public class Gui extends JPanel{
 
-	private JFrame frame;
+	/*private JFrame frame;
 	private JTextArea output;
-	private JTextArea input;
+	private JTextArea input;*/
+    
 	/**
 	 * Launch the application.
+	 * @throws IOException 
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Gui window = new Gui();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-			
-		});
+	public static void main(String[] args) throws IOException {
+	    JFrame f = new JFrame();
+	    f.addWindowListener(new WindowAdapter() {
+	         @Override
+            public void windowClosing(WindowEvent e) {
+	            System.exit(0);
+	         }
+	      });
+	      f.setContentPane(new Gui());
+	      f.setSize(1000, 1000);
+	      f.setVisible(true);
 	}
 
 	/**
@@ -41,25 +42,60 @@ public class Gui {
 	 * @throws IOException 
 	 */
 	private void initialize() throws IOException {
-		frame = new JFrame();
-		frame.getContentPane().setBackground(Color.DARK_GRAY);
-		frame.setBounds(1000, 2000, 700, 400);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				
-		output = new JTextArea();
-		
-		output.setBorder(BorderFactory.createCompoundBorder(output.getBorder(), BorderFactory.createEmptyBorder(5, 5, 5, 5)));
-		output.setFont(new Font("Courier New", Font.PLAIN, 12));
-		output.setForeground(Color.GREEN);
-		output.setBackground(new Color(0, 0, 0));
-		output.setRows(16);
-		frame.getContentPane().add(output, BorderLayout.NORTH);
-		output.setEditable(false);
-		
-		input = new JTextArea();
-		input.setBorder(BorderFactory.createCompoundBorder(input.getBorder(), BorderFactory.createEmptyBorder(5, 5, 5, 5)));
-		input.setFont(new Font("Courier New", Font.PLAIN, 13));
-		input.setRows(9);
-		frame.getContentPane().add(input, BorderLayout.SOUTH);
+	        JPanel panel = new JPanel();
+	        JPanel buttons = new JPanel();
+	        buttons.setBackground(Color.BLACK);
+	        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+	        panel.setPreferredSize(new Dimension(1000, 1000));
+	        buttons.setPreferredSize(new Dimension(100, 100));
+	        panel.setBackground(Color.BLACK);
+	        JLabel text = new JLabel("Welcome to Stay With Us 2.0");
+	        text.setAlignmentX(CENTER_ALIGNMENT);
+	        JButton play = new JButton("Play Game");
+	        play.addActionListener(new ActionListener() {
+	                @Override
+	                    public void actionPerformed(ActionEvent e) {
+	                        JFrame nextframe = new JFrame();
+	                        nextframe.setSize(1000, 1000);
+	                        JTextArea output = new JTextArea();
+	                        output.setPreferredSize(new Dimension(1000, 500));
+	                        output.setBorder(BorderFactory.createCompoundBorder(output.getBorder(), BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+	                        output.setFont(new Font("Courier New", Font.PLAIN, 12));
+	                        output.setForeground(Color.GREEN);
+	                        output.setBackground(new Color(0, 0, 0));
+	                        output.setRows(16);
+	                        nextframe.getContentPane().add(output, BorderLayout.NORTH);
+	                        output.setEditable(false);
+	                        JTextArea input = new JTextArea();
+	                        input.setPreferredSize(new Dimension(1000, 445));
+	                        input.setBorder(BorderFactory.createCompoundBorder(input.getBorder(), BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+	                        input.setFont(new Font("Courier New", Font.PLAIN, 13));
+	                        input.setRows(9);
+	                        nextframe.getContentPane().add(input, BorderLayout.SOUTH);
+	                        nextframe.setVisible(true);                  
+	                    }         
+	                });
+	        play.setBackground(Color.LIGHT_GRAY);
+	        JButton help = new JButton("How to Play");
+	        help.addActionListener(new ActionListener() {
+                @Override
+                    public void actionPerformed(ActionEvent e) {
+                        JFrame nextframe = new JFrame();
+                        nextframe.setSize(1000, 1000);
+                        JPanel rules = new JPanel();
+                        rules.setBackground(Color.BLACK);
+                        rules.setPreferredSize(new Dimension(1000, 1000));
+                        nextframe.add(rules);
+                        nextframe.setVisible(true);                  
+                    }         
+	        });
+	        help.setBackground(Color.LIGHT_GRAY);
+	        text.setFont(new Font("Helvetica", Font.PLAIN, 50));
+	        text.setForeground(Color.GREEN);
+	        panel.add(text);
+	        buttons.add(play);
+	        buttons.add(help);
+	        panel.add(buttons);
+	        add(panel);
 	}
 }
