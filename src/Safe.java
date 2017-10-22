@@ -1,14 +1,11 @@
 
-public class Safe implements Encryption {
+public class Safe extends Encryption {
 
     public boolean unlock(int guess) {
         return guess == this.key;
     }
     
-    
-    
-    
-    
+   
     
     
     

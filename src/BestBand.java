@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class BestBand {
+public class BestBand extends Encryption {
 
     Map<String, Boolean> bands;
     

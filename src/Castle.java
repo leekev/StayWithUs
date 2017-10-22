@@ -1,5 +1,5 @@
 
-public class Castle {
+public class Castle extends Encryption{
     
     Royalty currentRuler;
 
