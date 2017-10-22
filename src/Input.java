@@ -7,7 +7,7 @@ public class Input {
 
     static String s = "public class StayWithUs { \n\n\tPlayer p; \n\n\tpublic void run(String useless) { \n\t\tsetup();\n\t\taction(p);\n\t}\n\n\t"
              + "public void setup() {\n\t\t";
-    static String end = "\n\t}\n}";
+    static String end = "\n\t}\n\n\tpublic void action(Player p) {\n\t}\n}";
     
     public static void main(String[] args) throws FileNotFoundException {
         test();
@@ -16,7 +16,7 @@ public class Input {
     }
     
     public static void test() throws FileNotFoundException {
-        File inputFile = new File("C:\\Users\\syjai\\git\\StayWithUs\\src\\player.txt");
+        File inputFile = new File("player.txt");
         Scanner scan = new Scanner(inputFile);
         String line;
         String fline;
