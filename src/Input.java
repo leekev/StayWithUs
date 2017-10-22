@@ -5,9 +5,9 @@ import java.util.Scanner;
 
 public class Input {
 
-    static String s = "public class StayWithUs { \n\n\tPlayer p; \n\n\tpublic void run(String useless) { \n\t\tsetup();\n\t\taction(p);\n\t}\n\n\t"
-             + "public void setup() {\n\t\t";
-    static String end = "\n\t}\n\n\tpublic void action(Player p) {\n\t}\n}";
+    static String s = "public class StayWithUs { \n\n\tPlayer p; \n\n\tpublic static void run(String useless) { \n\t\tsetup();\n\t\taction(p);\n\t}\n\n\t"
+             + "public static void setup() {\n\t\t";
+    static String end = "\n\t}\n\n\tpublic static void action(Player p) {\n\t}\n}";
     
     public static void main(String[] args) throws FileNotFoundException {
         test();
