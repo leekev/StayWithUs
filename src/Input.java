@@ -16,7 +16,7 @@ public class Input {
     }
     
     public static void test() throws FileNotFoundException {
-        File inputFile = new File("player.txt");
+        File inputFile = new File("player1.txt");
         Scanner scan = new Scanner(inputFile);
         String line;
         String fline;

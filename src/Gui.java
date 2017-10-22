@@ -16,7 +16,7 @@ public class Gui extends JPanel{
 	 * Launch the application.
 	 * @throws IOException 
 	 */
-	public static void main(String[] args) throws IOException {
+	public static void run() throws IOException {
 	    JFrame f = new JFrame();
 	    f.addWindowListener(new WindowAdapter() {
 	         @Override
@@ -58,6 +58,8 @@ public class Gui extends JPanel{
 	                        JFrame nextframe = new JFrame();
 	                        nextframe.setSize(1000, 1000);
 	                        JTextArea output = new JTextArea();
+	                        PrintStream out = new PrintStream(new TextAreaOutputStream(output));
+	                        System.setOut(out);
 	                        output.setPreferredSize(new Dimension(1000, 500));
 	                        output.setBorder(BorderFactory.createCompoundBorder(output.getBorder(), BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 	                        output.setFont(new Font("Courier New", Font.PLAIN, 12));
@@ -85,6 +87,10 @@ public class Gui extends JPanel{
                         JPanel rules = new JPanel();
                         rules.setBackground(Color.BLACK);
                         rules.setPreferredSize(new Dimension(1000, 1000));
+                        JLabel words = new JLabel("Rules:");
+                        words.setForeground(Color.GREEN);
+                        words.setFont(new Font("Helvetica", Font.PLAIN, 14));
+                        rules.add(words);
                         nextframe.add(rules);
                         nextframe.setVisible(true);                  
                     }         

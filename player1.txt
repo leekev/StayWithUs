@@ -1,1 +1,5 @@
-p = new Player("hey");
+WinCondition winner = new WinCondition();
+gabba = winner;
+Encryption var0 = winner;
+Encryption var1 = new Moat(var0);
+p = new Player(var1);

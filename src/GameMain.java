@@ -30,7 +30,8 @@ public class GameMain {
     
     static final int WRITABLELINES = 10;
     
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+        Gui.run();
         runner = new CodeRunner();
         setupSelections();
         Scanner input = new Scanner(System.in);
@@ -41,6 +42,8 @@ public class GameMain {
         String playerTurn = "player1";
         boolean gameOver = false;
         do {
+            System.out.println("Write code to method: ");
+            System.out.println("public static void action(Player p) {");
             String playerCode = s;
             playerCode += i;
             playerCode += r;
@@ -191,7 +194,7 @@ public class GameMain {
     
     public static String classSelection(Scanner input) {
         System.out.println("Choose your class: ");
-        System.out.println("PUT CLASSES HERE");
+        System.out.println("Medieval");
         return input.nextLine();
     }
     
