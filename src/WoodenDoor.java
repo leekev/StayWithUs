@@ -22,7 +22,6 @@ public class WoodenDoor extends Encryption{
 	public class Door
 	{
 		public String code;
-		public Encryption next;
 		public Door(Encryption e)
 		{
 			next = new Encryption();
@@ -34,6 +33,7 @@ public class WoodenDoor extends Encryption{
 				return next;
 			return null;
 		}
+		public Encryption next;
 	}
 	
 	//the code is "StayWithUs"
