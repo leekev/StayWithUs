@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class Inspectable {
     
-    private int lines = 4;
+    private int lines = 2;
     
     
     public void inspect(String source) {

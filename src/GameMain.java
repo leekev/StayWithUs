@@ -1,5 +1,6 @@
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,8 +14,11 @@ import java.util.TreeSet;
 
 public class GameMain {
     
-    static String s = "import java.io.BufferedWriter; \n import java.io.File; \n import java.io.FileWriter; \n import java.io.IOException; \n public class StayWithUs { \n\n\tstatic Player p; \n\n\t static WinCondition gabba; \n\n\tpublic static void run(String useless) { \n\t\tsetup();\n\t\taction(p);\n\t\t checkWin(); \n\t}\n\n\t"
-            + "public static void setup() {\n\t\t";
+    static int i = 0;
+    
+    static String s = "import java.io.BufferedWriter; \n import java.io.File; \n import java.io.FileWriter; \n import java.io.IOException; \n public class StayWithUs";
+            
+    static String r = "{ \n\n\tstatic Player p; \n\n\t static WinCondition gabba; \n\n\tpublic static void run(String useless) { \n\t\tsetup();\n\t\taction(p);\n\t\t checkWin(); \n\t}\n\n\t public static void setup() {\n\t\t";
     static String middle = "\n\t}\n\n\tpublic static void action(Player p) {\n";
     
     static String end = "\t\n}\n\t public static void checkWin() {\n\t\t BufferedWriter writer; try { writer = new BufferedWriter(new FileWriter(new File(\"result.txt\"))); writer.write(\"\" + gabba.result()); writer.close(); } catch (IOException e) { return; }\n\t }\n}";
@@ -31,21 +35,48 @@ public class GameMain {
         initialPreparation("player1", input, 10);
         initialPreparation("player2", input, 12);
         
+        Scanner gameWinner;
+        String playerTurn = "player1";
+        boolean gameOver = false;
+        do {
+            String playerCode = s;
+            playerCode += i;
+            playerCode += r;
+            playerCode += readPlayerInputText(playerTurn);
+            playerCode += middle;
+            
+            playerCode += writeLines(5);
+            playerCode += end;
+            
+            boolean compilationSuccess = runner.runCode(playerCode, i);
+            
+            if (!compilationSuccess) {
+                System.out.println("Code did not compile - end of turn");
+            } else {
+                i++;
+            }
+            
+            try {
+                gameWinner = new Scanner(new File("result.txt"));
+                if (gameWinner.nextLine().trim().equals("true")) {
+                    gameOver = true;
+                } else {
+                    playerTurn = playerTurn.equals("player1") ? "player2" : "player1";   
+                }
+            } catch (FileNotFoundException e) {
+                System.err.println("Scanner broke bro don't know what to say");
+                System.exit(1);
+            }
+        } while (!gameOver);
         
         
-        String playerCode = s + readPlayerInputText("player1");
+        System.out.println(playerTurn.toUpperCase() + " wins!");
         
-        playerCode += middle;
-        
-        System.out.println("Write some lines");
-        playerCode += writeLines(5);
-        playerCode += end;
-        runner.runCode(playerCode);
     }
     
     public static void setupSelections() {
         MEDIEVAL = new HashSet<Pair<String, Integer>>();
-        MEDIEVAL.add(new Pair<String, Integer>("Moat", 3));
+        MEDIEVAL.add(new Pair<String, Integer>("Moat", 10));
         MEDIEVAL.add(new Pair<String, Integer>("WoodenDoor", 5));
     }
     
@@ -63,17 +94,9 @@ public class GameMain {
         Scanner input = new Scanner(System.in);
         StringBuilder result = new StringBuilder();
         int i = 0;
-        int indents = 0;
         while (i < maxLines) {
-            for (int j = 0; j < indents; j++) {
-                System.out.print("\t");
-            }
             String nextLine = input.nextLine();
             result.append(nextLine);
-            
-            if (nextLine.endsWith("{")) {
-                indents++;
-            }
             i++;
         }
         return result.toString();

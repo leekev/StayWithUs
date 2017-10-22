@@ -15,7 +15,7 @@ public class WinCondition extends Encryption{
 	}
 	public void unlock(int guess)
 	{	
-		if (key == guess)
+		if (5 == guess)
 			winner = true;
 	}
 	

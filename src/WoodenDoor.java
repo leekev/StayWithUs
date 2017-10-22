@@ -24,7 +24,7 @@ public class WoodenDoor extends Encryption{
 		public String code;
 		public Door(Encryption e)
 		{
-			next = new Encryption();
+			next = e;
 			code = "StayWithUs";
 		}
 		public Encryption unlock(String key)
@@ -36,6 +36,10 @@ public class WoodenDoor extends Encryption{
 		public Encryption next;
 	}
 	
-	//the code is "StayWithUs"
-
+	//the code is "StayWithUs
+	
+	@Override
+    public void inspect() {
+	    super.inspect("src/WoodenDoor.java");
+	}
 }
