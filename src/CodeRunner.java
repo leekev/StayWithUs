@@ -20,8 +20,8 @@ public class CodeRunner {
         CodeRunner.DIR = ClassLoader.getSystemResource(".").getPath();
     }
     
-    public boolean runCode(String code) {
-        JavaFileObject playerCode = new JavaSourceFromString("StayWithUs", code);
+    public boolean runCode(String code, int i) {
+        JavaFileObject playerCode = new JavaSourceFromString("StayWithUs" + i, code);
         Iterable<? extends JavaFileObject> compilationUnits = Arrays.asList(playerCode);
         
         CompilationTask task = compiler.getTask(null, null, null, Arrays.asList(new String[] { "-d", DIR}), null, compilationUnits);
@@ -30,7 +30,7 @@ public class CodeRunner {
         
         if (compilationSuccess) {
             try {
-                Class.forName("StayWithUs").getDeclaredMethod("run", String.class).invoke(null, "WhiteMorning");
+                Class.forName("StayWithUs" + i).getDeclaredMethod("run", String.class).invoke(null, "WhiteMorning");
                 return true;
             } catch (Exception e) {
                 return false;
