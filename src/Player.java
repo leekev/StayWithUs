@@ -1,9 +1,9 @@
 
 public class Player {
 
-    public String sup;
+    public Encryption next;
     
-    public Player(String hey) {
-        sup = hey;
+    public Player(Encryption encryption) {
+        next = encryption;
     }
 }
