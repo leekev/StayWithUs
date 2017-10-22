@@ -28,6 +28,8 @@ public class GameMain {
     
     static Set<Pair<String, Integer>> MEDIEVAL;
     
+    static final int WRITABLELINES = 10;
+    
     public static void main(String[] args) {
         runner = new CodeRunner();
         setupSelections();
@@ -45,7 +47,7 @@ public class GameMain {
             playerCode += readPlayerInputText(playerTurn);
             playerCode += middle;
             
-            playerCode += writeLines(5);
+            playerCode += writeLines(WRITABLELINES);
             playerCode += end;
             
             boolean compilationSuccess = runner.runCode(playerCode, i);
