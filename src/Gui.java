@@ -1,9 +1,11 @@
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
 import java.io.*;
 
 public class Gui extends JPanel{
@@ -83,15 +85,11 @@ public class Gui extends JPanel{
                 @Override
                     public void actionPerformed(ActionEvent e) {
                         JFrame nextframe = new JFrame();
-                        nextframe.setSize(1000, 1000);
-                        JPanel rules = new JPanel();
-                        rules.setBackground(Color.BLACK);
-                        rules.setPreferredSize(new Dimension(1000, 1000));
-                        JLabel words = new JLabel("Rules:");
-                        words.setForeground(Color.GREEN);
-                        words.setFont(new Font("Helvetica", Font.PLAIN, 14));
-                        rules.add(words);
-                        nextframe.add(rules);
+                        HowToPlayFrame howToPlayImage = new HowToPlayFrame();
+                        nextframe.setSize(1050, 1050);
+                        nextframe.setBackground(Color.BLACK);
+                        nextframe.setPreferredSize(new Dimension(1000, 1000));
+                        nextframe.add(howToPlayImage);
                         nextframe.setVisible(true);                  
                     }         
 	        });
@@ -104,4 +102,5 @@ public class Gui extends JPanel{
 	        panel.add(buttons);
 	        add(panel);
 	}
+	
 }

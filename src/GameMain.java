@@ -28,21 +28,26 @@ public class GameMain {
     
     static Set<Pair<String, Integer>> MEDIEVAL;
     
-    static final int WRITABLELINES = 10;
+    static final int WRITABLELINES = 5;
     
     public static void main(String[] args) throws IOException {
         Gui.run();
         runner = new CodeRunner();
         setupSelections();
         Scanner input = new Scanner(System.in);
+        input.nextLine();
+        System.out.println("Player1: ");
         initialPreparation("player1", input, 10);
+        System.out.println("Player2: ");
         initialPreparation("player2", input, 12);
         
         Scanner gameWinner;
         String playerTurn = "player1";
         boolean gameOver = false;
         do {
+            System.out.print(playerTurn + "'s turn - ");
             System.out.println("Write code to method: ");
+            System.out.println();
             System.out.println("public static void action(Player p) {");
             String playerCode = s;
             playerCode += i;
@@ -52,7 +57,9 @@ public class GameMain {
             
             playerCode += writeLines(WRITABLELINES);
             playerCode += end;
-            
+            System.out.println("}");
+            System.out.println();
+            System.out.println();
             boolean compilationSuccess = runner.runCode(playerCode, i);
             
             if (!compilationSuccess) {
@@ -61,6 +68,7 @@ public class GameMain {
                 i++;
             }
             
+            System.out.println();
             try {
                 gameWinner = new Scanner(new File("result.txt"));
                 if (gameWinner.nextLine().trim().equals("true")) {
