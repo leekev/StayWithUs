@@ -26,11 +26,10 @@ public class Gui {
 			}
 			
 		});
-	
 	}
 
 	/**
-	 * Create the application.
+	 Create the application.
 	 * @throws IOException 
 	 */
 	public Gui() throws IOException {
@@ -42,9 +41,6 @@ public class Gui {
 	 * @throws IOException 
 	 */
 	private void initialize() throws IOException {
-		
-		
-		
 		frame = new JFrame();
 		frame.getContentPane().setBackground(Color.DARK_GRAY);
 		frame.setBounds(1000, 2000, 700, 400);
@@ -59,32 +55,11 @@ public class Gui {
 		output.setRows(16);
 		frame.getContentPane().add(output, BorderLayout.NORTH);
 		output.setEditable(false);
-		output.setText("public static void main(String args[]) { }");
 		
 		input = new JTextArea();
 		input.setBorder(BorderFactory.createCompoundBorder(input.getBorder(), BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 		input.setFont(new Font("Courier New", Font.PLAIN, 13));
-		input.setRows(10);
+		input.setRows(9);
 		frame.getContentPane().add(input, BorderLayout.SOUTH);
-
-		
-		
 	}
-
-}
-
-class CustomOutputStream extends OutputStream {
-    private JTextArea textArea;
-     
-    public CustomOutputStream(JTextArea textArea) {
-        this.textArea = textArea;
-    }
-     
-    @Override
-    public void write(int b) throws IOException {
-        // redirects data to the text area
-        textArea.append(String.valueOf((char)b));
-        // scrolls the text area to the end of data
-        textArea.setCaretPosition(textArea.getDocument().getLength());
-    }
 }
