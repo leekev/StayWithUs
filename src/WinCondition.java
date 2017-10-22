@@ -1,21 +1,21 @@
+import java.util.HashSet;
 import java.util.Set;
 
 public class WinCondition extends Encryption{
-	public boolean winner;
+	private boolean winner;
 	public PatternGenerator generate;
-	public Set<String> set;
+	public Set<Integer> set;
+	public int key;
 	public WinCondition()
 	{
+		set = new HashSet<Integer>();
 		winner = false;
-		generate = new PatternGenerator((int)(Math.random() * 5));
+		generate = new PatternGenerator();
+		key = generate.run((int)(Math.random() * 5), set);
 	}
-	
-	public class WinNode
-	{
-		public WinNode next;
-		public WinNode()
-		{
-			
-		}
+	public void unlock(int guess)
+	{	
+		if (key == guess)
+			winner = true;
 	}
 }
